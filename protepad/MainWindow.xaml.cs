@@ -9,9 +9,16 @@ namespace protepad
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     ///
-    
+
     public partial class MainWindow
     {
+        public string TextBoxText(string currentText)
+        {
+            if (currentText == null) throw new ArgumentNullException(nameof(currentText));
+            currentText = textBox.Text; 
+            return currentText;
+        }
+
         // variable for current zoom level
         private readonly double _zoomLevel;
         //path to file
@@ -22,7 +29,7 @@ namespace protepad
         public MainWindow()
         {
             InitializeComponent();
-            _zoomLevel = TextBox.FontSize;
+            _zoomLevel = textBox.FontSize;
         }
         
         private void ExitMenuButton_Click(object sender, RoutedEventArgs e)
@@ -56,10 +63,10 @@ namespace protepad
                 // save the opened FileName in our variable
                 _fileName = open.FileName;
                 // open the file
-                TextBox.Text = File.ReadAllText(_fileName);
-                TextBox.Text = $"{Path.GetFileNameWithoutExtension(open.FileName)}";
+                textBox.Text = File.ReadAllText(_fileName);
+                textBox.Text = $"{Path.GetFileNameWithoutExtension(open.FileName)}";
                 var reader = new StreamReader(open.FileName);
-                TextBox.Text = reader.ReadToEnd();
+                textBox.Text = reader.ReadToEnd();
                 // set the title of the window to the name of the file with the extension
                 Title = $"{Path.GetFileName(open.FileName)} - Protepad";
                 reader.Close();
@@ -68,26 +75,26 @@ namespace protepad
 
         private void WordWrapMenuButton_Click(object sender, RoutedEventArgs e)
         {
-            TextBox.TextWrapping = WordWrapMenuButton.IsChecked ? TextWrapping.Wrap : TextWrapping.NoWrap;
+            textBox.TextWrapping = WordWrapMenuButton.IsChecked ? TextWrapping.Wrap : TextWrapping.NoWrap;
         }
 
         private void ZoomInMenuButton_Click(object sender, RoutedEventArgs e)
         {
-            TextBox.FontSize += 1;
+            textBox.FontSize += 1;
         }
 
         private void ZoomOutMenuButton_Click(object sender, RoutedEventArgs e)
         {
-            TextBox.FontSize -= 1;
+            textBox.FontSize -= 1;
         }
 
         private void ResetDefZoomMenuButton_Click(object sender, RoutedEventArgs e)
         {
-            TextBox.FontSize = _zoomLevel;
+            textBox.FontSize = _zoomLevel;
         }
 
-        private async void SaveMenuButton_Click(object sender, RoutedEventArgs e)
-        { 
+        private void SaveMenuButton_Click(object sender, RoutedEventArgs e)
+        {
             // if file name is empty, open save dialog
             if (string.IsNullOrEmpty(_fileName))
             {
@@ -132,8 +139,10 @@ namespace protepad
             //         await sw.WriteLineAsync(TextBox.Text); 
             //     }
             // }
+            
+            // USE METHOD CODE HERE
         }
-        
+
         private void SaveAsMenuButton_Click(object sender, RoutedEventArgs e)
         {
             var saveFileDialog = new SaveFileDialog
@@ -148,41 +157,42 @@ namespace protepad
                 streamWriter.Close();
                 fileStream.Close();
             }
+            // USE METHOD HERE 
         }
 
         private void UndoMenuButton_Click(object sender, RoutedEventArgs e)
         {
-            TextBox.Undo();
+            textBox.Undo();
         }
 
         private void RedoMenuButton_Click(object sender, RoutedEventArgs e)
         {
-            TextBox.Redo();
+            textBox.Redo();
         }
 
         private void CutMenuButton_Click(object sender, RoutedEventArgs e)
         {
-            TextBox.Cut();
+            textBox.Cut();
         }
 
         private void CopyMenuButton_Click(object sender, RoutedEventArgs e)
         {
-            TextBox.Copy();
+            textBox.Copy();
         }
 
         private void PasteMenuButton_Click(object sender, RoutedEventArgs e)
         {
-            TextBox.Paste();
+            textBox.Paste();
         }
 
         private void DeleteMenuButton_Click(object sender, RoutedEventArgs e)
         {
-            TextBox.SelectedText = "";
+            textBox.SelectedText = "";
         }
 
         private void SelectAllMenuButton_Click(object sender, RoutedEventArgs e)
         {
-            TextBox.SelectAll();
+            textBox.SelectAll();
         }
 
         private void FindMenuButton_Click(object sender, RoutedEventArgs e)
@@ -214,7 +224,7 @@ namespace protepad
         // create a method parameter for text in textbox and return the text
         public string GetText()
         {
-            return TextBox.Text;
+            return textBox.Text;
         }
     }
 }

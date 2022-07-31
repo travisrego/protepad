@@ -58,6 +58,6 @@
                 <MenuItem Header="About ProtePad" />
             </MenuItem>
         </Menu>
-        <TextBox x:Name="TextBox" Grid.Row="1" TextWrapping="NoWrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Margin="0,0.4,-0.4,0.2" FontFamily="Consolas" FontSize="16"/>
+        <TextBox x:Name="textBox" Grid.Row="1" TextWrapping="NoWrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Margin="0,0.4,-0.4,0.2" FontFamily="Consolas" FontSize="16"/>
     </Grid>
 </Window>
