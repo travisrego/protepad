@@ -21,14 +21,13 @@
                  Width="180"
                  Height="20"
                  Name="FindTextBox" Grid.ColumnSpan="2"/>
-        <Label Grid.Row="0" Grid.Column="0" Margin="0,6,111.6,27.4" Content="Find what"/>
-        <TextBox Grid.Column="0" Text="{Binding Path=ReplaceText}"
+        <TextBox Grid.Column="0" Text="{Binding ReplaceText}"
                  Margin="84,35,0,0"
                  HorizontalAlignment="Left"
                  VerticalAlignment="Top"
                  Width="180"
                  Height="20"
-                 Name="ReplaceTextBox" Grid.Row="0" Grid.ColumnSpan="2"/>
+                 x:Name="ReplaceTextBox" Grid.Row="0" Grid.ColumnSpan="2"/>
         <Button Grid.Row="0" Grid.Column="1" Content="Find Next"
                 Margin="91.4,10,0,0"
                 HorizontalAlignment="Left"
@@ -43,6 +42,7 @@
                 Width="85"
                 Height="20"
                 Name="ReplaceButton"/>
+        <Label Grid.Row="0" Grid.Column="0" Margin="0,6,111.6,27.4" Content="Find what"/>
         <Label Grid.Row="0" Grid.Column="0" Margin="0,32,101.6,46.6" Content="Replace with:" Grid.RowSpan="2"/>
         <Button Grid.Row="0" Grid.Column="1" Content="Replace All"
                 Margin="91.4,85,0,0"
@@ -64,7 +64,7 @@
                   Width="15"
                   Height="15"
                   Name="MatchCaseCheckBox"/>
-        <Label Margin="22,109,98.6,22.6" FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Width="65"
+        <Label Margin="24,119,0,0" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Width="65"
                Grid.Column="0" Grid.Row="0" Grid.RowSpan="2">Match case</Label>
         <CheckBox Grid.Row="1" Grid.Column="0" Margin="4,24.6,0,0"
                   HorizontalAlignment="Left"
@@ -72,7 +72,7 @@
                   Width="15"
                   Height="15"
                   Name="WrapAroundCheckBox"/>
-        <Label Margin="22,20.6,86.6,0.6" FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center" Height="26" Width="77"
+        <Label Margin="24,19,0,0" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26" Width="77"
             Grid.Column="0" Grid.Row="1" Content="Wrap around"/>
         <Button Grid.Column="1" Content="Cancel"
             Margin="91.4,110,0,0"
