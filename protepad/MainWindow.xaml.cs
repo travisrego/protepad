@@ -104,9 +104,16 @@ namespace protepad
                     DefaultExt = "txt"
                 };
                 // if user clicks ok, save file
-                if (saveFileDialog.ShowDialog() != true) return;
-                _fileName = saveFileDialog.SafeFileName;
-                // File.WriteAllText(_path, text);
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    _fileName = saveFileDialog.FileName;
+                    // open the file
+                    TextBox.Text = $"{Path.GetFileNameWithoutExtension(saveFileDialog.FileName)}";
+                    // set the title of the window to the name of the file with the extension
+                    Title = $"{Path.GetFileName(saveFileDialog.FileName)} - Protepad";
+                    // change the currentDirectory to the new directory
+                    File.WriteAllText(_fileName, TextBox.Text);
+                }
             }
             // if file name is not empty, save file
             else
@@ -141,14 +148,27 @@ namespace protepad
 
         private void SaveAsMenuButton_Click(object sender, RoutedEventArgs e)
         {
+            var tempPath = _fileName;
             var saveFileDialog = new SaveFileDialog
             {
                 Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*",
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
             };
             if (saveFileDialog.ShowDialog() == true)
-            {
+            {           
+                _fileName = saveFileDialog.FileName;
+                // open the file
+                TextBox.Text = File.ReadAllText(tempPath);
+                TextBox.Text = $"{Path.GetFileNameWithoutExtension(saveFileDialog.FileName)}";
+                var reader = new StreamReader(tempPath);
+                TextBox.Text = reader.ReadToEnd();
+                // set the title of the window to the name of the file with the extension
+                Title = $"{Path.GetFileName(saveFileDialog.FileName)} - Protepad";
+                // change the currentDirectory to the new directory
+                reader.Close();
+
                 File.WriteAllText(_fileName, TextBox.Text);
+                
             }
             // USE METHOD HERE 
         }
