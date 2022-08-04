@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Windows;
 using Microsoft.Win32;
+using protepad.Edit;
 
 namespace protepad
 {
@@ -21,9 +22,7 @@ namespace protepad
 
         // variable for current zoom level
         private readonly double _zoomLevel;
-        //path to file
-        private string _path = string.Empty;
-        // name of file
+        // path and name of file
         private string _fileName = string.Empty;
 
         public MainWindow()
@@ -52,25 +51,25 @@ namespace protepad
 
         private void OpenMenuButton_Click(object sender, RoutedEventArgs e)
         {
-           OpenFileDialog open = new OpenFileDialog();
-        
-            open.Filter = "Text Files (.txt)|*.txt|All Files (*.*)|*.*";
-            open.Title = "Open File";
-            open.FileName = "";
-        
-            if (open.ShowDialog() == true)
-            {
-                // save the opened FileName in our variable
-                _fileName = open.FileName;
-                // open the file
-                TextBox.Text = File.ReadAllText(_fileName);
-                TextBox.Text = $"{Path.GetFileNameWithoutExtension(open.FileName)}";
-                var reader = new StreamReader(open.FileName);
-                TextBox.Text = reader.ReadToEnd();
-                // set the title of the window to the name of the file with the extension
-                Title = $"{Path.GetFileName(open.FileName)} - Protepad";
-                reader.Close();
-            }
+           var open = new OpenFileDialog
+           {
+               Filter = "Text Files (.txt)|*.txt|All Files (*.*)|*.*",
+               Title = "Open File",
+               FileName = ""
+           };
+
+           if (open.ShowDialog() != true) return;
+            // save the opened FileName in our variable
+            _fileName = open.FileName;
+            // open the file
+            TextBox.Text = File.ReadAllText(_fileName);
+            TextBox.Text = $"{Path.GetFileNameWithoutExtension(open.FileName)}";
+            var reader = new StreamReader(open.FileName);
+            TextBox.Text = reader.ReadToEnd();
+            // set the title of the window to the name of the file with the extension
+            Title = $"{Path.GetFileName(open.FileName)} - Protepad";
+            // change the currentDirectory to the new directory
+            reader.Close();
         }
 
         private void WordWrapMenuButton_Click(object sender, RoutedEventArgs e)
@@ -98,24 +97,21 @@ namespace protepad
             // if file name is empty, open save dialog
             if (string.IsNullOrEmpty(_fileName))
             {
-                SaveFileDialog saveFileDialog = new SaveFileDialog
+                var saveFileDialog = new SaveFileDialog
                 {
                     Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*",
                     AddExtension = true,
                     DefaultExt = "txt"
                 };
                 // if user clicks ok, save file
-                if (saveFileDialog.ShowDialog() == true)
-                {
-                    _path = saveFileDialog.FileName;
-                    _fileName = saveFileDialog.SafeFileName;
-                    // File.WriteAllText(_path, text);
-                }
+                if (saveFileDialog.ShowDialog() != true) return;
+                _fileName = saveFileDialog.SafeFileName;
+                // File.WriteAllText(_path, text);
             }
             // if file name is not empty, save file
             else
             {
-                // File.WriteAllText(_path, text);
+                File.WriteAllText(_fileName, TextBox.Text);
             }
             // if (string.IsNullOrEmpty(_path))
             // {
@@ -152,10 +148,7 @@ namespace protepad
             };
             if (saveFileDialog.ShowDialog() == true)
             {
-                var fileStream = new FileStream(saveFileDialog.FileName, FileMode.Create);
-                var streamWriter = new StreamWriter(fileStream);
-                streamWriter.Close();
-                fileStream.Close();
+                File.WriteAllText(_fileName, TextBox.Text);
             }
             // USE METHOD HERE 
         }
@@ -197,21 +190,18 @@ namespace protepad
 
         private void FindMenuButton_Click(object sender, RoutedEventArgs e)
         {
-            var findDialog = new FindDialog
-            {
-                // Code from https://bit.ly/3x8PixS
-                Topmost = false,
-                Owner = this,
-            };
-            findDialog.Show();
         }
 
 
         private void ReplaceMenuButton_Click(object sender, RoutedEventArgs e)
         {
-            // var replaceDialog = new ReplaceDialog();
-            // replaceDialog.Owner = this;
-            // replaceDialog.ShowDialog();
+            var replaceDialog = new FindAndReplaceDialog
+            {
+                // Code from https://bit.ly/3x8PixS
+                Topmost = false,
+                Owner = this
+            };
+            replaceDialog.Show();
         }
 
         private void GoToMenuButton_Click(object sender, RoutedEventArgs e)
