@@ -197,11 +197,11 @@ namespace protepad
 
         private void FindMenuButton_Click(object sender, RoutedEventArgs e)
         {
-            var findDialog = new FindDialog.MainWindow
+            var findDialog = new FindDialog
             {
                 // Code from https://bit.ly/3x8PixS
                 Topmost = false,
-                Owner = this
+                Owner = this,
             };
             findDialog.Show();
         }
